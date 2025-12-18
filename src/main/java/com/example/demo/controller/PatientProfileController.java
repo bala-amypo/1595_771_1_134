@@ -39,7 +39,7 @@ public class PatientProfileController {
     @PutMapping("/{id}/status")
     public ResponseEntity<PatientProfile> updatePatientStatus(@PathVariable Long id, @RequestParam boolean active){
         PatientProfile updatedPatientProfile=patientProfileService.updatePatientStatus(id,active);
-        return ResponseEntity.status(201).body(updatedPatientProfile);
+        return ResponseEntity.status(200).body(updatedPatientProfile);
     }
 
                                                                                                                                                                                                                                                           
