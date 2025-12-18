@@ -46,8 +46,7 @@ public class PatientProfileServiceImpl implements PatientProfileService {
     public PatientProfile updatePatientStatus(Long id, boolean active) {
 
     PatientProfile patientProfile = patientProfileRepository.findById(id)
-            .orElseThrow(() ->
-                    new RuntimeException("Patient not found with id: " + id));
+            .orElseThrow(() -> new RuntimeException("Patient not found with id: " + id));
 
     patientProfile.setActive(active);
 
