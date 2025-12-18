@@ -22,7 +22,7 @@ public class PatientProfileServiceImpl implements PatientProfileService {
             throw new RuntimeException("Email already exists");
         }
 
-        if (patientProfileRepository.findByPatientID(patientProfile.getPatientID()).isPresent()) {
+        if (patientProfileRepository.findByPatientID(patientProfile.getPatientId()).isPresent()) {
             throw new RuntimeException("Patient ID already exists");
         }
 
