@@ -7,9 +7,9 @@ import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(
-    name = "PostSurgery",
+    name = "post_surgery",
     uniqueConstraints = {
-        @UniqueConstraint(columnNames = "patientID"),
+        @UniqueConstraint(columnNames = "patient_id"),
         @UniqueConstraint(columnNames = "email")
     }
 )
@@ -17,11 +17,11 @@ public class PatientProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NotBlank
-    @Column(nullable = false, unique = true)
-    private String patientID;
+    @Column(name = "patient_id", nullable = false, unique = true)
+    private String patientId;
 
     @NotBlank
     @Column(nullable = false)
@@ -38,7 +38,7 @@ public class PatientProfile {
     @Column(nullable = false)
     private String surgeryType;
 
-     @Column(nullable = false)
+    @Column(nullable = false)
     private boolean active = true;
 
     @Column(nullable = false, updatable = false)
@@ -51,13 +51,14 @@ public class PatientProfile {
         this.createdAt = LocalDateTime.now();
     }
 
- 
-    public long getId() {
+    // ===== Getters =====
+
+    public Long getId() {
         return id;
     }
 
-    public String getPatientID() {
-        return patientID;
+    public String getPatientId() {
+        return patientId;
     }
 
     public String getFullName() {
@@ -84,12 +85,14 @@ public class PatientProfile {
         return createdAt;
     }
 
-    public void setId(long id) {
+    // ===== Setters =====
+
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public void setPatientID(String patientID) {
-        this.patientID = patientID;
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
     }
 
     public void setFullName(String fullName) {
