@@ -38,8 +38,7 @@ public class PatientProfile {
     @Column(nullable = false)
     private String surgeryType;
 
-    // true = patient currently being monitored
-    @Column(nullable = false)
+     @Column(nullable = false)
     private boolean active = true;
 
     @Column(nullable = false, updatable = false)
@@ -52,8 +51,7 @@ public class PatientProfile {
         this.createdAt = LocalDateTime.now();
     }
 
-    // Getters and Setters
-
+ 
     public long getId() {
         return id;
     }
