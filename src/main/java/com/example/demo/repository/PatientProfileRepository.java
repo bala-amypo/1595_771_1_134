@@ -12,7 +12,7 @@ public interface PatientProfileRepository extends JpaRepository<PatientProfile, 
 
     Optional<PatientProfile> findByEmail(String email);
 
-    Optional<PatientProfile> findByPatientID(String patientID);
+    Optional<PatientProfile> findByPatientId(String patientId);
     Optional<PatientProfile> findByPatientId(String patientId);
     Optional<PatientProfile> updatePatientStatus(Long id, boolean active);
 
