@@ -2,30 +2,57 @@ package com.example.demo.model;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
+@Entity
+@Table(
+    name = "PostSurgery",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = "patientID"),
+        @UniqueConstraint(columnNames = "email")
+    }
+)
 public class PatientProfile {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @NotBlank
+    @Column(nullable = false, unique = true)
     private String patientID;
+
+    @NotBlank
+    @Column(nullable = false)
     private String fullName;
+
+    @Column(nullable = false)
     private int age;
+
+    @NotBlank
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @NotBlank
+    @Column(nullable = false)
     private String surgeryType;
-    private boolean active;
+
+    // true = patient currently being monitored
+    @Column(nullable = false)
+    private boolean active = true;
+
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    public PatientProfile(){
+    public PatientProfile() {}
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
     }
 
-    public PatientProfile(String patientID, String fullName, int age, String email, String surgeryType, boolean active,
-            LocalDateTime createdAt) {
-        this.patientID = patientID;
-        this.fullName = fullName;
-        this.age = age;
-        this.email = email;
-        this.surgeryType = surgeryType;
-        this.active = active;
-        this.createdAt = createdAt;
-    }
+    // Getters and Setters
 
     public long getId() {
         return id;
@@ -86,14 +113,4 @@ public class PatientProfile {
     public void setActive(boolean active) {
         this.active = active;
     }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-
-
-
-
 }
-    
