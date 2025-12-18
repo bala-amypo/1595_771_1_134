@@ -11,6 +11,8 @@ import com.example.demo.model.PatientProfile;
 public interface PatientProfileRepository extends JpaRepository<PatientProfile, Long> {
 
     Optional<PatientProfile> findByEmail(String email);
-
     Optional<PatientProfile> findByPatientID(String patientID);
+    Optional<PatientProfile> findByPatientId(String patientId);
+    Optional<PatientProfile> updatePatientStatus(Long id, boolean active);
+
 }

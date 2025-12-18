@@ -38,4 +38,20 @@ public class PatientProfileServiceImpl implements PatientProfileService {
     public PatientProfile getById(long id) {
         return patientProfileRepository.findById(id).orElse(null);
     }
+    @Override
+    public PatientProfile getByPatientId(String patientId){
+        return patientProfileRepository.findByPatientId(patientId).orElse(null);
+    }
+    @Override
+    public PatientProfile updatePatientStatus(Long id, boolean active) {
+
+    PatientProfile patientProfile = patientProfileRepository.findById(id)
+            .orElseThrow(() ->
+                    new RuntimeException("Patient not found with id: " + id));
+
+    patientProfile.setActive(active);
+
+    return patientProfileRepository.save(patientProfile);
+}
+
 }

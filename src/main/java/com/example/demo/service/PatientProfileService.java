@@ -7,5 +7,7 @@ import com.example.demo.model.PatientProfile;
 public interface PatientProfileService {
     PatientProfile createPatient(PatientProfile patientProfile);
     List<PatientProfile> getPatientProfile();
-     PatientProfile getById(long id);
+    PatientProfile getById(long id);
+    PatientProfile getByPatientId(String patientId);
+    PatientProfile updatePatientStatus(Long id, boolean active);
 }
