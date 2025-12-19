@@ -1,19 +1,13 @@
 package com.example.demo.repository;
 
+import com.example.demo.model.PatientProfile;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import com.example.demo.model.PatientProfile;
-
-@Repository
 public interface PatientProfileRepository extends JpaRepository<PatientProfile, Long> {
 
     Optional<PatientProfile> findByEmail(String email);
 
     Optional<PatientProfile> findByPatientId(String patientId);
-    Optional<PatientProfile> findByPatientId(String patientId);
-    Optional<PatientProfile> updatePatientStatus(Long id, boolean active);
-
 }
