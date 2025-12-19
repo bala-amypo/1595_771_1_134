@@ -1,32 +1,36 @@
 package com.example.demo.model;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(
-    name = "post_surgery",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "patient_id"),
-        @UniqueConstraint(columnNames = "email")
-    }
+        name = "patient_profiles",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "patientId"),
+                @UniqueConstraint(columnNames = "email")
+        }
 )
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PatientProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "patient_id", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String patientId;
 
     @Column(nullable = false)
     private String fullName;
 
-    @Column(nullable = false)
-    private int age;
+    private Integer age;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -35,13 +39,8 @@ public class PatientProfile {
     private String surgeryType;
 
     @Column(nullable = false)
-    private boolean active = true;
+    private Boolean active;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
     private LocalDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
 }
