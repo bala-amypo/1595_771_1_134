@@ -1,53 +1,38 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.model.PatientProfile;
 import com.example.demo.service.PatientProfileService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/patients")
+@RequestMapping("/patients")
 public class PatientProfileController {
-    @Autowired
-    PatientProfileService patientProfileService;
+
+    private final PatientProfileService service;
+
+    public PatientProfileController(PatientProfileService service) {
+        this.service = service;
+    }
 
     @PostMapping
-    public ResponseEntity<PatientProfile> create(@RequestBody PatientProfile patientProfile) {
-        PatientProfile savedPatient =
-                patientProfileService.createPatient(patientProfile);
-        return ResponseEntity.status(201).body(savedPatient);
+    public PatientProfile createPatient(@RequestBody PatientProfile patient) {
+        return service.createPatient(patient);
+    }
+
+    @GetMapping("/{id}")
+    public PatientProfile getPatientById(@PathVariable Long id) {
+        return service.getPatientById(id);
+    }
+
+    @GetMapping("/code/{patientId}")
+    public PatientProfile getPatientByPatientId(@PathVariable String patientId) {
+        return service.getPatientByPatientId(patientId);
     }
 
     @GetMapping
-    public List<PatientProfile> getAll(){
-        return patientProfileService.getPatientProfile();
+    public List<PatientProfile> getAllPatients() {
+        return service.getAllPatients();
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<PatientProfile> getById(@PathVariable long id){
-            PatientProfile idProfile=patientProfileService.getById(id);
-            return ResponseEntity.status(200).body(idProfile);
-    }
-    @GetMapping("/lookup/{patientId}")
-    public ResponseEntity<PatientProfile> getByPatientId(@PathVariable String patientId){
-            PatientProfile patientIdProfile=patientProfileService.getByPatientId(patientId);
-            return ResponseEntity.status(200).body(patientIdProfile);
-    }
-   @PutMapping("/{id}/status")
-public ResponseEntity<PatientProfile> updatePatientStatus(
-        @PathVariable Long id,
-        @RequestParam boolean active) {
-
-    PatientProfile updated =
-            patientProfileService.updatePatientStatus(id, active);
-
-    return ResponseEntity.ok(updated);
 }
-
-
-                                                                                                                                                                                                                                                          
-}
-
