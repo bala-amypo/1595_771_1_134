@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "deviation_rules")
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -16,15 +14,11 @@ public class DeviationRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String surgeryType;
+    @Column(unique = true)
+    private String ruleCode;
 
-    @Column(nullable = false)
-    private String symptomParameter;
-
-    @Column(nullable = false)
-    private Integer thresholdDeviation;
-
-    @Column(nullable = false)
-    private Boolean active;
+    private String parameter;
+    private Integer threshold;
+    private String severity;
+    private Boolean active = true;
 }

@@ -5,8 +5,7 @@ import lombok.*;
 
 @Entity
 @Table(name = "app_users")
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -16,12 +15,14 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String role;
+    private String fullName;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 }
