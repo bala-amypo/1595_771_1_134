@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "app_users")
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -21,8 +21,5 @@ public class AppUser {
     @Column(nullable = false)
     private String password;
 
-    private String fullName;
-
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
+    private String role;
 }
