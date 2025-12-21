@@ -1,28 +1,34 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.ClinicalAlertRecord;
-import com.example.demo.service.ClinicalAlertService;
+import com.example.demo.service.AuthService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/alerts")
-public class ClinicalAlertController {
+@RequestMapping("/auth")
+public class AuthController {
 
-    private final ClinicalAlertService service;
+    private final AuthService authService;
 
-    public ClinicalAlertController(ClinicalAlertService service) {
-        this.service = service;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
-    @GetMapping("/patient/{patientId}")
-    public List<ClinicalAlertRecord> getByPatient(@PathVariable Long patientId) {
-        return service.getAlertsByPatient(patientId);
+    @PostMapping("/register")
+    public String register(@RequestBody Map<String, String> req) {
+        authService.register(req.get("email"), req.get("password"));
+        return "User registered successfully";
     }
 
-    @PutMapping("/{id}/resolve")
-    public ClinicalAlertRecord resolve(@PathVariable Long id) {
-        return service.resolveAlert(id);
+    @PostMapping("/login")
+    public Map<String, String> login(@RequestBody Map<String, String> req) {
+
+        String token = authService.login(
+                req.get("email"),
+                req.get("password")
+        );
+
+        return Map.of("token", token);
     }
 }
