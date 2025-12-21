@@ -1,34 +1,17 @@
-package com.example.demo.controller;
+@PostMapping("/register")
+public String register(@RequestBody RegisterRequest request) {
 
-import com.example.demo.service.AuthService;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
-
-@RestController
-@RequestMapping("/auth")
-public class AuthController {
-
-    private final AuthService authService;
-
-    public AuthController(AuthService authService) {
-        this.authService = authService;
+    if (request.getPassword() == null || request.getPassword().isBlank()) {
+        throw new RuntimeException("Password must not be empty");
     }
 
-    @PostMapping("/register")
-    public String register(@RequestBody Map<String, String> req) {
-        authService.register(req.get("email"), req.get("password"));
-        return "User registered successfully";
-    }
+    AppUser user = AppUser.builder()
+            .email(request.getEmail())
+            .password(passwordEncoder.encode(request.getPassword()))
+            .role("ROLE_USER")
+            .build();
 
-    @PostMapping("/login")
-    public Map<String, String> login(@RequestBody Map<String, String> req) {
+    userRepository.save(user);
 
-        String token = authService.login(
-                req.get("email"),
-                req.get("password")
-        );
-
-        return Map.of("token", token);
-    }
+    return "User registered successfully";
 }
