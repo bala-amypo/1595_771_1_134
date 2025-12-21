@@ -9,22 +9,23 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class DailySymptomLogServiceImpl implements DailySymptomLogService {
+public class DailySymptomLogServiceImpl
+        implements DailySymptomLogService {
 
     private final DailySymptomLogRepository repository;
 
-    public DailySymptomLogServiceImpl(DailySymptomLogRepository repository) {
+    public DailySymptomLogServiceImpl(
+            DailySymptomLogRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public DailySymptomLog logDailySymptoms(DailySymptomLog log) {
-        log.setSubmittedAt(LocalDateTime.now());
+    public DailySymptomLog recordSymptomLog(DailySymptomLog log) {
         return repository.save(log);
     }
 
     @Override
-    public List<DailySymptomLog> getLogsForPatient(Long patientId) {
+    public List<DailySymptomLog> getLogsByPatient(Long patientId) {
         return repository.findByPatientId(patientId);
     }
 }

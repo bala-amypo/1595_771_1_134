@@ -7,22 +7,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/symptoms")
+@RequestMapping("/api/symptoms")
 public class DailySymptomLogController {
 
     private final DailySymptomLogService service;
 
-    public DailySymptomLogController(DailySymptomLogService service) {
+    public DailySymptomLogController(
+            DailySymptomLogService service) {
         this.service = service;
     }
 
     @PostMapping
-    public DailySymptomLog logSymptoms(@RequestBody DailySymptomLog log) {
-        return service.logDailySymptoms(log);
+    public DailySymptomLog logSymptoms(
+            @RequestBody DailySymptomLog log) {
+        return service.recordSymptomLog(log);
     }
 
-    @GetMapping("/patient/{patientId}")
-    public List<DailySymptomLog> getLogs(@PathVariable Long patientId) {
-        return service.getLogsForPatient(patientId);
+    @GetMapping("/patient/{id}")
+    public List<DailySymptomLog> getLogs(
+            @PathVariable Long id) {
+        return service.getLogsByPatient(id);
     }
 }
