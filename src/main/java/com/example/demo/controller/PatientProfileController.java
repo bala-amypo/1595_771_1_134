@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/patients")
+@RequestMapping("/api/patients")
 public class PatientProfileController {
 
     private final PatientProfileService service;
@@ -17,22 +17,23 @@ public class PatientProfileController {
     }
 
     @PostMapping
-    public PatientProfile createPatient(@RequestBody PatientProfile patient) {
-        return service.createPatient(patient);
+    public PatientProfile create(@RequestBody PatientProfile profile) {
+        return service.createPatient(profile);
     }
 
     @GetMapping("/{id}")
-    public PatientProfile getPatientById(@PathVariable Long id) {
+    public PatientProfile getById(@PathVariable Long id) {
         return service.getPatientById(id);
     }
 
-    @GetMapping("/code/{patientId}")
-    public PatientProfile getPatientByPatientId(@PathVariable String patientId) {
-        return service.getPatientByPatientId(patientId);
+    @GetMapping
+    public List<PatientProfile> getAll() {
+        return service.getAllPatients();
     }
 
-    @GetMapping
-    public List<PatientProfile> getAllPatients() {
-        return service.getAllPatients();
+    @PutMapping("/{id}/status")
+    public PatientProfile updateStatus(@PathVariable Long id,
+                                       @RequestParam boolean active) {
+        return service.updatePatientStatus(id, active);
     }
 }

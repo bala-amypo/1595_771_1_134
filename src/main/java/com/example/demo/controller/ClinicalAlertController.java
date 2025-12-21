@@ -1,13 +1,13 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.ClinicalAlert;
+import com.example.demo.model.ClinicalAlertRecord;
 import com.example.demo.service.ClinicalAlertService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/alerts")
+@RequestMapping("/api/alerts")
 public class ClinicalAlertController {
 
     private final ClinicalAlertService service;
@@ -17,7 +17,12 @@ public class ClinicalAlertController {
     }
 
     @GetMapping("/patient/{patientId}")
-    public List<ClinicalAlert> getAlerts(@PathVariable Long patientId) {
-        return service.getAlertsForPatient(patientId);
+    public List<ClinicalAlertRecord> getByPatient(@PathVariable Long patientId) {
+        return service.getAlertsByPatient(patientId);
+    }
+
+    @PutMapping("/{id}/resolve")
+    public ClinicalAlertRecord resolve(@PathVariable Long id) {
+        return service.resolveAlert(id);
     }
 }
