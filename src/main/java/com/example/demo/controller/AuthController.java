@@ -39,7 +39,7 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
 
         if (request.getEmail() == null || request.getPassword() == null) {
-            return ResponseEntity.badRequest().body("Email and Password must not be null");
+            return ResponseEntity.badRequest().body("Email and password must not be null");
         }
 
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -68,7 +68,10 @@ public class AuthController {
                 )
         );
 
-        String token = jwtTokenProvider.generateToken(authentication);
+        // ✅ IMPORTANT FIX
+        String email = authentication.getName();
+
+        String token = jwtTokenProvider.generateToken(email);
 
         Map<String, String> response = new HashMap<>();
         response.put("token", token);
