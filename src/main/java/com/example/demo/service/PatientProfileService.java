@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface PatientProfileService {
 
-    PatientProfile createPatient(PatientProfile patient);
+    PatientProfile createPatient(PatientProfile profile);
 
     PatientProfile getPatientById(Long id);
 
-    PatientProfile getPatientByPatientId(String patientId);
-
     List<PatientProfile> getAllPatients();
+
+    PatientProfile updatePatientStatus(Long id, boolean active);
 }

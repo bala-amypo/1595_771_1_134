@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface DailySymptomLogService {
 
-    DailySymptomLog logDailySymptoms(DailySymptomLog log);
+    DailySymptomLog recordSymptomLog(DailySymptomLog log);
 
-    List<DailySymptomLog> getLogsForPatient(Long patientId);
+    DailySymptomLog updateSymptomLog(Long id, DailySymptomLog log);
+
+    List<DailySymptomLog> getLogsByPatient(Long patientId);
 }
