@@ -19,26 +19,28 @@ public class PatientProfileServiceImpl implements PatientProfileService {
     }
 
     @Override
-    public PatientProfile createPatient(PatientProfile patient) {
-        patient.setCreatedAt(LocalDateTime.now());
-        patient.setActive(true);
-        return repository.save(patient);
+    public PatientProfile createPatient(PatientProfile profile) {
+        profile.setCreatedAt(LocalDateTime.now());
+        profile.setActive(true);
+        return repository.save(profile);
     }
 
     @Override
     public PatientProfile getPatientById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
-    }
-
-    @Override
-    public PatientProfile getPatientByPatientId(String patientId) {
-        return repository.findByPatientId(patientId)
-                .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Patient not found"));
     }
 
     @Override
     public List<PatientProfile> getAllPatients() {
         return repository.findAll();
+    }
+
+    @Override
+    public PatientProfile updatePatientStatus(Long id, boolean active) {
+        PatientProfile profile = getPatientById(id);
+        profile.setActive(active);
+        return repository.save(profile);
     }
 }
