@@ -50,3 +50,31 @@ public class AuthServiceImpl implements AuthService {
 
         return new AuthResponse(
                 token,
+                user.getEmail(),
+                user.getRole().name()
+        );
+    }
+
+    // ✅ LOGIN
+    @Override
+    public AuthResponse login(AuthRequest request) {
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+
+        AppUser user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        String token = jwtTokenProvider.generateToken(user.getEmail());
+
+        return new AuthResponse(
+                token,
+                user.getEmail(),
+                user.getRole().name()
+        );
+    }
+}
