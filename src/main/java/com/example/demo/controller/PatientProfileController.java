@@ -2,38 +2,50 @@ package com.example.demo.controller;
 
 import com.example.demo.model.PatientProfile;
 import com.example.demo.service.PatientProfileService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/patients")
+@Tag(name = "Patient Profiles")
 public class PatientProfileController {
 
-    private final PatientProfileService service;
+    private final PatientProfileService patientProfileService;
 
-    public PatientProfileController(PatientProfileService service) {
-        this.service = service;
+    public PatientProfileController(PatientProfileService patientProfileService) {
+        this.patientProfileService = patientProfileService;
     }
 
     @PostMapping
-    public PatientProfile create(@RequestBody PatientProfile profile) {
-        return service.createPatient(profile);
+    public PatientProfile createPatient(@RequestBody PatientProfile profile) {
+        return patientProfileService.createPatient(profile);
     }
 
     @GetMapping("/{id}")
-    public PatientProfile getById(@PathVariable Long id) {
-        return service.getPatientById(id);
+    public PatientProfile getPatientById(@PathVariable Long id) {
+        return patientProfileService.getPatientById(id);
     }
 
     @GetMapping
-    public List<PatientProfile> getAll() {
-        return service.getAllPatients();
+    public List<PatientProfile> getAllPatients() {
+        return patientProfileService.getAllPatients();
     }
 
     @PutMapping("/{id}/status")
-    public PatientProfile updateStatus(@PathVariable Long id,
-                                       @RequestParam boolean active) {
-        return service.updatePatientStatus(id, active);
+    public PatientProfile updatePatientStatus(
+            @PathVariable Long id,
+            @RequestParam boolean active
+    ) {
+        return patientProfileService.updatePatientStatus(id, active);
+    }
+
+    @GetMapping("/lookup/{patientId}")
+    public PatientProfile getByPatientId(@PathVariable String patientId) {
+        return patientProfileService.findByPatientId(patientId)
+                .orElseThrow(() ->
+                        new RuntimeException("Patient not found")
+                );
     }
 }

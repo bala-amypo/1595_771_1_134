@@ -2,32 +2,35 @@ package com.example.demo.controller;
 
 import com.example.demo.model.RecoveryCurveProfile;
 import com.example.demo.service.RecoveryCurveService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/recovery-curves")
+@Tag(name = "Recovery Curves")
 public class RecoveryCurveController {
 
-    private final RecoveryCurveService service;
+    private final RecoveryCurveService recoveryCurveService;
 
-    public RecoveryCurveController(RecoveryCurveService service) {
-        this.service = service;
+    public RecoveryCurveController(RecoveryCurveService recoveryCurveService) {
+        this.recoveryCurveService = recoveryCurveService;
     }
 
     @PostMapping
-    public RecoveryCurveProfile create(@RequestBody RecoveryCurveProfile curve) {
-        return service.createCurveEntry(curve);
+    public RecoveryCurveProfile createCurve(@RequestBody RecoveryCurveProfile curve) {
+        return recoveryCurveService.createCurveEntry(curve);
     }
 
-    @GetMapping("/surgery/{type}")
-    public List<RecoveryCurveProfile> getBySurgery(@PathVariable String type) {
-        return service.getCurveForSurgery(type);
+    @GetMapping("/surgery/{surgeryType}")
+    public List<RecoveryCurveProfile> getCurveForSurgery(
+            @PathVariable String surgeryType) {
+        return recoveryCurveService.getCurveForSurgery(surgeryType);
     }
 
     @GetMapping
-    public List<RecoveryCurveProfile> getAll() {
-        return service.getAllCurves();
+    public List<RecoveryCurveProfile> getAllCurves() {
+        return recoveryCurveService.getAllCurves();
     }
 }
