@@ -15,10 +15,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtFilter) {
-        this.jwtFilter = jwtFilter;
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
@@ -26,20 +26,25 @@ public class SecurityConfig {
 
         http
             .csrf(csrf -> csrf.disable())
-            .sessionManagement(sm ->
-                sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
+            .sessionManagement(session ->
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    "/auth/**",
-                    "/status",
-                    "/swagger-ui/**",
-                    "/v3/api-docs/**"
-                ).permitAll()
-                .requestMatchers("/api/**").authenticated()
-                .anyRequest().denyAll()
+                    // PUBLIC
+                    .requestMatchers(
+                            "/auth/**",
+                            "/swagger-ui/**",
+                            "/v3/api-docs/**",
+                            "/status"
+                    ).permitAll()
+
+                    // PROTECTED
+                    .requestMatchers("/api/**").authenticated()
+
+                    // ANYTHING ELSE
+                    .anyRequest().permitAll()
             )
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(jwtAuthenticationFilter,
+                    UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
