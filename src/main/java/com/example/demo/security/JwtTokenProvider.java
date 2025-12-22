@@ -1,24 +1,47 @@
 package com.example.demo.security;
 
-import com.example.demo.model.AppUser;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
+import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
 
-    public String generateToken(AppUser user) {
-         return "jwt-token-for-" + user.getEmail();
+    private final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final long validityInMs = 24 * 60 * 60 * 1000; // 1 day
+
+    public String generateToken(String email) {
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + validityInMs))
+                .signWith(key)
+                .compact();
     }
 
     public boolean validateToken(String token) {
-        return token != null && token.startsWith("jwt-token-for-");
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-     public String getEmail(String token) {
-        if (token == null) {
-            return null;
-        }
-
-         return token.replace("jwt-token-for-", "");
+    public String getEmail(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getSubject();
     }
 }
