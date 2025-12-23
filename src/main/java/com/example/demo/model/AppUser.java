@@ -18,7 +18,7 @@ public class AppUser {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
- 1    public Long getId() { return id; }
+     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
     public String getEmail() { return email; }
