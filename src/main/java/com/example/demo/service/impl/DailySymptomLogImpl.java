@@ -27,18 +27,15 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     @Override
     public DailySymptomLog recordSymptomLog(DailySymptomLog log) {
 
-        // patient must exist
-        patientRepository.findById(log.getPatientId())
+         patientRepository.findById(log.getPatientId())
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Patient not found"));
 
-        // future date validation
-        if (log.getLogDate().isAfter(LocalDate.now())) {
+         if (log.getLogDate().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("future date not allowed");
         }
 
-        // duplicate check
-        logRepository.findByPatientIdAndLogDate(
+         logRepository.findByPatientIdAndLogDate(
                 log.getPatientId(),
                 log.getLogDate()
         ).ifPresent(existing -> {
