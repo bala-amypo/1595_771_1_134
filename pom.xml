@@ -91,6 +91,12 @@
     <version>7.10.2</version>
     <scope>test</scope>
 </dependency>
+<!-- Spring Security -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+
 
 
 
