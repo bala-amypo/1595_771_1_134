@@ -18,13 +18,38 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
         this.repository = repository;
     }
 
+    // 🔹 CREATE RULE
+    @Override
+    public DeviationRule createRule(DeviationRule rule) {
+        return repository.save(rule);
+    }
+
+    // 🔹 GET RULE BY CODE
     @Override
     public Optional<DeviationRule> getRuleByCode(String ruleCode) {
         return repository.findByRuleCode(ruleCode);
     }
 
+    // 🔹 GET ACTIVE RULES
     @Override
     public List<DeviationRule> getActiveRules() {
         return repository.findByActiveTrue();
+    }
+
+    // 🔹 UPDATE RULE
+    @Override
+    public DeviationRule updateRule(Long id, DeviationRule updatedRule) {
+
+        DeviationRule existing = repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Rule not found"));
+
+        existing.setRuleCode(updatedRule.getRuleCode());
+        existing.setParameter(updatedRule.getParameter());
+        existing.setThreshold(updatedRule.getThreshold());
+        existing.setSeverity(updatedRule.getSeverity());
+        existing.setActive(updatedRule.getActive());
+
+        return repository.save(existing);
     }
 }
