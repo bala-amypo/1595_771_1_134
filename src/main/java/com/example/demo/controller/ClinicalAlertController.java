@@ -28,4 +28,10 @@ public class ClinicalAlertController {
         ClinicalAlertRecord alert = clinicalAlertService.getAlertById(alertId);
         return ResponseEntity.ok(alert);
     }
+
+    @PostMapping("/{alertId}/resolve")
+    public ResponseEntity<ClinicalAlertRecord> resolveAlert(@PathVariable Long alertId) {
+        ClinicalAlertRecord resolvedAlert = clinicalAlertService.markAsResolved(alertId);
+        return ResponseEntity.ok(resolvedAlert);
+    }
 }

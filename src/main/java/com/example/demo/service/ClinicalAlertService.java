@@ -6,4 +6,5 @@ import java.util.List;
 public interface ClinicalAlertService {
     List<ClinicalAlertRecord> getAlertsByPatient(Long patientId);
     ClinicalAlertRecord getAlertById(Long alertId);
+    ClinicalAlertRecord markAsResolved(Long alertId);
 }

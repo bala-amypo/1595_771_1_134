@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "clinical_alert_records")
+@Table(name = "clinical_alerts")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,6 +17,8 @@ public class ClinicalAlertRecord {
     private Long id;
 
     private Long patientId;
+
     private String message;
+
     private boolean resolved;
 }
