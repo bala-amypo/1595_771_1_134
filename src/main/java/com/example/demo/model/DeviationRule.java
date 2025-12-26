@@ -18,7 +18,7 @@ public class DeviationRule {
 
     private String ruleCode;
     private String parameter;
-    private double threshold;
+    private String threshold;
     private String severity;
     private boolean active;
 }

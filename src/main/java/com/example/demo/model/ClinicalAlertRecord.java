@@ -2,10 +2,9 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "clinical_alerts")
+@Table(name = "clinical_alert_records")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,8 +16,6 @@ public class ClinicalAlertRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long patientId;
-    private String message;
+    private String alertMessage;
     private boolean resolved;
-    private LocalDateTime createdAt;
 }

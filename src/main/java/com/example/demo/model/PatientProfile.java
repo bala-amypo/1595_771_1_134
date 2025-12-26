@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDate;
 
 @Entity
@@ -18,8 +19,7 @@ public class PatientProfile {
     private Long patientId;
 
     private String fullName;
-    private String email;
-    private LocalDate createdAt;
     private String surgeryType;
+    private LocalDate createdAt;
     private boolean active;
 }
