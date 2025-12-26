@@ -8,7 +8,7 @@ public interface DailySymptomLogService {
 
     DailySymptomLog recordSymptomLog(DailySymptomLog log);
 
-    DailySymptomLog updateSymptomLog(Long id, DailySymptomLog updated);
+    DailySymptomLog updateSymptomLog(Long logId, DailySymptomLog updatedLog);
 
     List<DailySymptomLog> getLogsByPatient(Long patientId);
 }

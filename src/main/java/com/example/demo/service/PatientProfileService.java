@@ -11,9 +11,9 @@ public interface PatientProfileService {
 
     PatientProfile getPatientById(Long id);
 
-    List<PatientProfile> getAllPatients();
-
     PatientProfile updatePatientStatus(Long id, boolean active);
 
     Optional<PatientProfile> findByPatientId(String patientId);
+
+    List<PatientProfile> getAllPatients();
 }
