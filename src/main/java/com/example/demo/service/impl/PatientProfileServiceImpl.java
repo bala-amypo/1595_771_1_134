@@ -5,6 +5,8 @@ import com.example.demo.repository.PatientProfileRepository;
 import com.example.demo.service.PatientProfileService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PatientProfileServiceImpl implements PatientProfileService {
 
@@ -17,11 +19,14 @@ public class PatientProfileServiceImpl implements PatientProfileService {
     @Override
     public PatientProfile getByPatientId(String patientId) {
         PatientProfile patient = repository.findByPatientId(patientId);
-
         if (patient == null) {
             throw new RuntimeException("Patient not found");
         }
-
         return patient;
+    }
+
+    @Override
+    public List<PatientProfile> getAllPatients() {
+        return repository.findAll();
     }
 }
