@@ -7,24 +7,16 @@ import org.testng.ITestResult;
 public class TestResultListener implements ITestListener {
 
     @Override
-    public void onTestStart(ITestResult result) {
-        // Optional: You can log test start
-    }
+    public void onTestStart(ITestResult result) { }
 
     @Override
-    public void onTestSuccess(ITestResult result) {
-        System.out.println("PASSED: " + result.getName());
-    }
+    public void onTestSuccess(ITestResult result) { }
 
     @Override
-    public void onTestFailure(ITestResult result) {
-        System.out.println("FAILED: " + result.getName() + " - " + result.getThrowable());
-    }
+    public void onTestFailure(ITestResult result) { }
 
     @Override
-    public void onTestSkipped(ITestResult result) {
-        System.out.println("SKIPPED: " + result.getName());
-    }
+    public void onTestSkipped(ITestResult result) { }
 
     @Override
     public void onStart(ITestContext context) { }
