@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
+import com.example.demo.dto.RegisterRequest;
 import com.example.demo.service.AuthService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public AuthResponse register(@RequestBody AuthRequest request) {
+    public AuthResponse register(@RequestBody RegisterRequest request) {
         return authService.register(request);
     }
 

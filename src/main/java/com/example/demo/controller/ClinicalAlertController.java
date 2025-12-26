@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/alerts")
+@RequestMapping("/api/alerts")
 public class ClinicalAlertController {
 
     private final ClinicalAlertService clinicalAlertService;
@@ -18,20 +18,36 @@ public class ClinicalAlertController {
     }
 
     @GetMapping("/patient/{patientId}")
-    public ResponseEntity<List<ClinicalAlertRecord>> getAlertsByPatient(@PathVariable Long patientId) {
-        List<ClinicalAlertRecord> alerts = clinicalAlertService.getAlertsByPatient(patientId);
-        return ResponseEntity.ok(alerts);
+    public ResponseEntity<List<ClinicalAlertRecord>> getAlertsByPatient(
+            @PathVariable Long patientId) {
+
+        return ResponseEntity.ok(
+                clinicalAlertService.getAlertsByPatient(patientId)
+        );
     }
 
     @GetMapping("/{alertId}")
-    public ResponseEntity<ClinicalAlertRecord> getAlertById(@PathVariable Long alertId) {
-        ClinicalAlertRecord alert = clinicalAlertService.getAlertById(alertId);
-        return ResponseEntity.ok(alert);
+    public ResponseEntity<ClinicalAlertRecord> getAlertById(
+            @PathVariable Long alertId) {
+
+        return clinicalAlertService.getAlertById(alertId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/{alertId}/resolve")
-    public ResponseEntity<ClinicalAlertRecord> resolveAlert(@PathVariable Long alertId) {
-        ClinicalAlertRecord resolvedAlert = clinicalAlertService.markAsResolved(alertId);
-        return ResponseEntity.ok(resolvedAlert);
+    @PutMapping("/{alertId}/resolve")
+    public ResponseEntity<ClinicalAlertRecord> resolveAlert(
+            @PathVariable Long alertId) {
+
+        return ResponseEntity.ok(
+                clinicalAlertService.resolveAlert(alertId)
+        );
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ClinicalAlertRecord>> getAllAlerts() {
+        return ResponseEntity.ok(
+                clinicalAlertService.getAllAlerts()
+        );
     }
 }
