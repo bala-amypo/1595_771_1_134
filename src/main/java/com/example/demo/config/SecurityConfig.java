@@ -26,10 +26,10 @@ public class SecurityConfig {
     }
 
     // Password encoder bean
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    // @Bean
+    // public PasswordEncoder passwordEncoder() {
+    //     return new BCryptPasswordEncoder();
+    // }
 
     // AuthenticationManager bean
     @Bean
