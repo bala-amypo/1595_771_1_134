@@ -1,25 +1,25 @@
 package com.example.demo.model;
 
+import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDate;
 
-import java.time.LocalDateTime;
-
+@Entity
+@Table(name = "patient_profiles")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class PatientProfile {
 
-    private Long id;
-    private String patientId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long patientId;
+
     private String fullName;
-    private Integer age;
     private String email;
+    private LocalDate createdAt;
     private String surgeryType;
-
-    @Builder.Default
-    private Boolean active = true;
-
-    private LocalDateTime createdAt;
+    private boolean active;
 }

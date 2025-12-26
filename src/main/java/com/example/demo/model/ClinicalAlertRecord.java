@@ -1,22 +1,24 @@
 package com.example.demo.model;
 
+import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "clinical_alerts")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ClinicalAlertRecord {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Long patientId;
-    private Long logId;
-
-    private String alertType;
-    private String severity;
     private String message;
-
-    @Builder.Default
-    private Boolean resolved = false;
+    private boolean resolved;
+    private LocalDateTime createdAt;
 }
