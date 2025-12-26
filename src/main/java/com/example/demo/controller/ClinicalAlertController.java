@@ -17,28 +17,36 @@ public class ClinicalAlertController {
         this.clinicalAlertService = clinicalAlertService;
     }
 
+    // ✅ Get all alerts for a patient
     @GetMapping("/patient/{patientId}")
-    public ResponseEntity<List<ClinicalAlertRecord>> getAlertsByPatient(@PathVariable Long patientId) {
-        List<ClinicalAlertRecord> alerts = clinicalAlertService.getAlertsByPatient(patientId);
+    public ResponseEntity<List<ClinicalAlertRecord>> getAlertsByPatient(
+            @PathVariable Long patientId) {
+
+        List<ClinicalAlertRecord> alerts =
+                clinicalAlertService.getAlertsByPatient(patientId);
+
         return ResponseEntity.ok(alerts);
     }
 
+    // ✅ Get alert by ID
     @GetMapping("/{id}")
-    public ResponseEntity<ClinicalAlertRecord> getAlertById(@PathVariable Long id) {
-        return clinicalAlertService.getAlertById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ClinicalAlertRecord> getAlertById(
+            @PathVariable Long id) {
+
+        ClinicalAlertRecord alert =
+                clinicalAlertService.getAlertById(id);
+
+        return ResponseEntity.ok(alert);
     }
 
+    // ✅ Mark alert as resolved
     @PutMapping("/{id}/resolve")
-    public ResponseEntity<ClinicalAlertRecord> resolveAlert(@PathVariable Long id) {
-        ClinicalAlertRecord resolved = clinicalAlertService.resolveAlert(id);
-        return ResponseEntity.ok(resolved);
-    }
+    public ResponseEntity<ClinicalAlertRecord> resolveAlert(
+            @PathVariable Long id) {
 
-    @GetMapping
-    public ResponseEntity<List<ClinicalAlertRecord>> getAllAlerts() {
-        List<ClinicalAlertRecord> alerts = clinicalAlertService.getAllAlerts();
-        return ResponseEntity.ok(alerts);
+        ClinicalAlertRecord resolvedAlert =
+                clinicalAlertService.resolveAlert(id);
+
+        return ResponseEntity.ok(resolvedAlert);
     }
 }
