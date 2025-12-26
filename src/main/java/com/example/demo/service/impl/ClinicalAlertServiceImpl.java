@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service  // 🔥 THIS ANNOTATION IS REQUIRED
+@Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
 
     private final ClinicalAlertRepository repository;
@@ -27,10 +27,19 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
     }
 
     @Override
-    public ClinicalAlertRecord resolveAlert(Long alertId) {
-        ClinicalAlertRecord alert = repository.findById(alertId)
+    public ClinicalAlertRecord getAlertById(Long alertId) {
+        return repository.findById(alertId)
                 .orElseThrow(() -> new RuntimeException("Alert not found"));
+    }
 
+    @Override
+    public List<ClinicalAlertRecord> getAlertsByPatient(Long patientId) {
+        return repository.findByPatientId(patientId);
+    }
+
+    @Override
+    public ClinicalAlertRecord resolveAlert(Long alertId) {
+        ClinicalAlertRecord alert = getAlertById(alertId);
         alert.setResolved(true);
         return repository.save(alert);
     }
