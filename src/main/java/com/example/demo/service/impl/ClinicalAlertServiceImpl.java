@@ -19,28 +19,21 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
     }
 
     @Override
-    public ClinicalAlertRecord createAlert(ClinicalAlertRecord alert) {
-        return repository.save(alert);
-    }
-
-    @Override
-    public ClinicalAlertRecord resolveAlert(Long alertId) {
-
-        ClinicalAlertRecord alert = repository.findById(alertId)
-                .orElseThrow(() -> new ResourceNotFoundException("Alert not found"));
-
-        alert.setResolved(true);
-        return repository.save(alert);
-    }
-
-    @Override
     public List<ClinicalAlertRecord> getAlertsByPatient(Long patientId) {
         return repository.findByPatientId(patientId);
     }
 
     @Override
-    public Optional<ClinicalAlertRecord> getAlertById(Long id) {
-        return repository.findById(id);
+    public Optional<ClinicalAlertRecord> getAlertById(Long alertId) {
+        return repository.findById(alertId);
+    }
+
+    @Override
+    public ClinicalAlertRecord resolveAlert(Long alertId) {
+        ClinicalAlertRecord alert = repository.findById(alertId)
+                .orElseThrow(() -> new ResourceNotFoundException("Alert not found"));
+        alert.setResolved(true);
+        return repository.save(alert);
     }
 
     @Override
