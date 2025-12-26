@@ -5,7 +5,7 @@ import com.example.demo.repository.RecoveryCurveProfileRepository;
 import com.example.demo.service.RecoveryCurveService;
 
 import java.util.List;
-
+@Service
 public class RecoveryCurveServiceImpl implements RecoveryCurveService {
 
     private final RecoveryCurveProfileRepository repository;
