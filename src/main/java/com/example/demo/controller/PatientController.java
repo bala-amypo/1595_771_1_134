@@ -19,8 +19,8 @@ public class PatientController {
 
     @PostMapping
     public ResponseEntity<PatientProfile> createPatient(@RequestBody PatientProfile patient) {
-        PatientProfile result = patientProfileService.createPatient(patient);
-        return ResponseEntity.ok(result);
+        PatientProfile saved = patientProfileService.createPatient(patient);
+        return ResponseEntity.ok(saved);
     }
 
     @GetMapping("/{id}")
@@ -30,14 +30,22 @@ public class PatientController {
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<PatientProfile> updateStatus(@PathVariable Long id, @RequestParam boolean active) {
+    public ResponseEntity<PatientProfile> updateStatus(@PathVariable Long id,
+                                                       @RequestParam boolean active) {
         PatientProfile updated = patientProfileService.updatePatientStatus(id, active);
         return ResponseEntity.ok(updated);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<PatientProfile>> getAllPatients() {
         List<PatientProfile> patients = patientProfileService.getAllPatients();
         return ResponseEntity.ok(patients);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<PatientProfile> findByPatientId(@RequestParam String patientId) {
+        return patientProfileService.findByPatientId(patientId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }

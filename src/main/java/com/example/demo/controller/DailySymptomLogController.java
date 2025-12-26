@@ -24,7 +24,8 @@ public class DailySymptomLogController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DailySymptomLog> updateLog(@PathVariable Long id, @RequestBody DailySymptomLog log) {
+    public ResponseEntity<DailySymptomLog> updateLog(@PathVariable Long id,
+                                                      @RequestBody DailySymptomLog log) {
         DailySymptomLog updated = dailySymptomLogService.updateSymptomLog(id, log);
         return ResponseEntity.ok(updated);
     }

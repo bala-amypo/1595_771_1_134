@@ -35,4 +35,10 @@ public class ClinicalAlertController {
         ClinicalAlertRecord resolved = clinicalAlertService.resolveAlert(id);
         return ResponseEntity.ok(resolved);
     }
+
+    @GetMapping
+    public ResponseEntity<List<ClinicalAlertRecord>> getAllAlerts() {
+        List<ClinicalAlertRecord> alerts = clinicalAlertService.getAllAlerts();
+        return ResponseEntity.ok(alerts);
+    }
 }
