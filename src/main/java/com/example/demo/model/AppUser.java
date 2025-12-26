@@ -18,6 +18,6 @@ public class AppUser {
 
     private String email;
     private String password;
-    private String fullName;
     private String role;
+    private String fullName;
 }
