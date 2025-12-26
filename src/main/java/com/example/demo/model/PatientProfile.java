@@ -3,7 +3,7 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "patient_profiles")
@@ -16,10 +16,11 @@ public class PatientProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long patientId;
+    private Long id;
 
+    private String patientId;
     private String fullName;
     private String surgeryType;
-    private LocalDate createdAt;
     private boolean active;
+    private LocalDateTime createdAt;
 }

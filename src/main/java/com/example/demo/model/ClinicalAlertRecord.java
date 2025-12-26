@@ -16,6 +16,7 @@ public class ClinicalAlertRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String alertMessage;
+    private Long patientId;
+    private String message;
     private boolean resolved;
 }
