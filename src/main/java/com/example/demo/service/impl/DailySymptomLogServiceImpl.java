@@ -78,11 +78,13 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
                         .logId(savedLog.getId())
                         .alertType("PAIN_SPIKE")
                         .severity(rule.getSeverity())
-                        .message("Pain exceeds expected level")
+                        .message("Pain deviation detected")
                         .resolved(false)
                         .build();
 
-                clinicalAlertService.createAlert(alert);
+// ✅ SAVE DIRECTLY USING REPOSITORY        
+                clinicalAlertRecordRepository.save(alert);
+
             }
         }
 
