@@ -23,8 +23,7 @@ public class DailySymptomLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // References PatientProfile.id (tests expect Long, NOT relation)
-    private Long patientId;
+     private Long patientId;
 
     private LocalDate logDate;
 
