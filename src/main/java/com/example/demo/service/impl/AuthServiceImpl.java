@@ -1,34 +1,27 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.AuthRequest;
-import com.example.demo.dto.AuthResponse;
-import com.example.demo.dto.RegisterRequest;
-import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.dto.*;
 import com.example.demo.model.AppUser;
-import com.example.demo.model.UserRole;
 import com.example.demo.repository.AppUserRepository;
 import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.AuthService;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    private final AppUserRepository appUserRepository;
+    private final AppUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public AuthServiceImpl(AppUserRepository appUserRepository,
+    public AuthServiceImpl(AppUserRepository userRepository,
                            PasswordEncoder passwordEncoder,
                            AuthenticationManager authenticationManager,
                            JwtTokenProvider jwtTokenProvider) {
-        this.appUserRepository = appUserRepository;
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -40,33 +33,25 @@ public class AuthServiceImpl implements AuthService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .fullName(request.getFullName())
-                .role(UserRole.CLINICIAN) // default role
+                .role("USER")
                 .build();
 
-        AppUser saved = appUserRepository.save(user);
-        String token = jwtTokenProvider.generateToken(saved);
+        AppUser saved = userRepository.save(user);
 
-        return new AuthResponse(saved.getEmail(), token);
+        String token = jwtTokenProvider.generateToken(saved);
+        return AuthResponse.builder().token(token).build();
     }
 
     @Override
-    public AuthResponse login(AuthRequest request) {
-        Optional<AppUser> userOpt = appUserRepository.findByEmail(request.getEmail());
-        if (userOpt.isEmpty()) {
-            throw new IllegalArgumentException("User not found");
-        }
-
-        AppUser user = userOpt.get();
-
-        // Authenticate using Spring Security AuthenticationManager
+    public AuthResponse authenticate(AuthRequest request) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
 
+        AppUser user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         String token = jwtTokenProvider.generateToken(user);
-        return new AuthResponse(user.getEmail(), token);
+        return AuthResponse.builder().token(token).build();
     }
 }

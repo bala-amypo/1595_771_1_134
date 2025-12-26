@@ -2,40 +2,27 @@ package com.example.demo.security;
 
 import com.example.demo.model.AppUser;
 import com.example.demo.repository.AppUserRepository;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
-import java.util.List;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final AppUserRepository appUserRepository;
+    private final AppUserRepository userRepository;
 
-    public CustomUserDetailsService(AppUserRepository appUserRepository) {
-        this.appUserRepository = appUserRepository;
+    public CustomUserDetailsService(AppUserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        AppUser appUser = appUserRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        // Convert role (or list of roles) to GrantedAuthority
-        List<GrantedAuthority> authorities = Collections.singletonList(
-                new SimpleGrantedAuthority(appUser.getRole().name())
-        );
+        AppUser appUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
         return User.builder()
                 .username(appUser.getEmail())
                 .password(appUser.getPassword())
-                .authorities(authorities)  // ✅ pass List<GrantedAuthority>, not List<String>
+                .roles(appUser.getRole()) // role as string, Spring Security adds "ROLE_" automatically
                 .build();
     }
 }
