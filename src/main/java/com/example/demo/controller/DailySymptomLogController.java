@@ -1,27 +1,29 @@
-package com.example.demo.controller;
+package com.example.demo.service.impl;
 
 import com.example.demo.model.DailySymptomLog;
 import com.example.demo.repository.DailySymptomLogRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import com.example.demo.service.DailySymptomLogService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/symptoms")
-@RequiredArgsConstructor
-public class DailySymptomLogController {
+@Service
+public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
-    private final DailySymptomLogRepository repository;
+    private final DailySymptomLogRepository logRepository;
 
-    @GetMapping
-    public ResponseEntity<List<DailySymptomLog>> getAllLogs() {
-        return ResponseEntity.ok(repository.findAll());
+    public DailySymptomLogServiceImpl(DailySymptomLogRepository logRepository) {
+        this.logRepository = logRepository;
     }
 
-    @PostMapping
-    public ResponseEntity<DailySymptomLog> addLog(@RequestBody DailySymptomLog log) {
-        return ResponseEntity.ok(repository.save(log));
+    @Override
+    public List<DailySymptomLog> getLogsByPatientId(Long patientId) {
+        List<DailySymptomLog> logs = logRepository.findByPatientId(patientId);
+
+        if (logs.isEmpty()) {
+            throw new RuntimeException("No symptom logs found");
+        }
+
+        return logs;
     }
 }
