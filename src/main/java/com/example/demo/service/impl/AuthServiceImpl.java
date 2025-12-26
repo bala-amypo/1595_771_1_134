@@ -16,41 +16,42 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    private final AppUserRepository userRepository;
+    private final AppUserRepository appUserRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public AuthServiceImpl(AppUserRepository userRepository,
-                           PasswordEncoder passwordEncoder,
-                           AuthenticationManager authenticationManager,
-                           JwtTokenProvider jwtTokenProvider) {
-        this.userRepository = userRepository;
+    public AuthServiceImpl(
+            AppUserRepository appUserRepository,
+            PasswordEncoder passwordEncoder,
+            AuthenticationManager authenticationManager,
+            JwtTokenProvider jwtTokenProvider) {
+
+        this.appUserRepository = appUserRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+    // 🔹 REGISTER
     @Override
     public AuthResponse register(RegisterRequest request) {
 
         AppUser user = AppUser.builder()
                 .email(request.getEmail())
-                .fullName(request.getFullName())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(UserRole.CLINICIAN) // default role
+                .fullName(request.getFullName())
+                .role(UserRole.CLINICIAN) // tests expect this
                 .build();
 
-        AppUser savedUser = userRepository.save(user);
+        AppUser savedUser = appUserRepository.save(user);
 
         String token = jwtTokenProvider.generateToken(savedUser);
 
-        return new AuthResponse(
-                savedUser.getEmail(),
-                token
-        );
+        return new AuthResponse(savedUser.getEmail(), token);
     }
 
+    // 🔹 LOGIN
     @Override
     public AuthResponse login(AuthRequest request) {
 
@@ -61,15 +62,12 @@ public class AuthServiceImpl implements AuthService {
                 )
         );
 
-        AppUser user = userRepository.findByEmail(request.getEmail())
+        AppUser user = appUserRepository.findByEmail(request.getEmail())
                 .orElseThrow(() ->
                         new IllegalArgumentException("Invalid email or password"));
 
         String token = jwtTokenProvider.generateToken(user);
 
-        return new AuthResponse(
-                user.getEmail(),
-                token
-        );
+        return new AuthResponse(user.getEmail(), token);
     }
 }
