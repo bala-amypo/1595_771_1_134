@@ -3,8 +3,10 @@ package com.example.demo.service.impl;
 import com.example.demo.model.RecoveryCurveProfile;
 import com.example.demo.repository.RecoveryCurveProfileRepository;
 import com.example.demo.service.RecoveryCurveService;
+import org.springframework.stereotype.Service;   // ✅ MISSING IMPORT FIXED
 
 import java.util.List;
+
 @Service
 public class RecoveryCurveServiceImpl implements RecoveryCurveService {
 
