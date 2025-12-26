@@ -1,13 +1,13 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.DeviationRule;
 import com.example.demo.repository.DeviationRuleRepository;
 import com.example.demo.service.DeviationRuleService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
+@Service
 public class DeviationRuleServiceImpl implements DeviationRuleService {
 
     private final DeviationRuleRepository repository;
@@ -17,28 +17,18 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
     }
 
     @Override
-    public DeviationRule createRule(DeviationRule rule) {
-        return repository.save(rule);
-    }
+    public DeviationRule getRuleByCode(String ruleCode) {
+        DeviationRule rule = repository.findByRuleCode(ruleCode);
 
-    @Override
-    public DeviationRule updateRule(Long id, DeviationRule rule) {
+        if (rule == null) {
+            throw new RuntimeException("Rule not found");
+        }
 
-        DeviationRule existing = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Rule not found"));
+        if (!rule.isActive()) {
+            throw new RuntimeException("Rule is inactive");
+        }
 
-        existing.setRuleCode(rule.getRuleCode());
-        existing.setParameter(rule.getParameter());
-        existing.setThreshold(rule.getThreshold());
-        existing.setSeverity(rule.getSeverity());
-        existing.setActive(rule.getActive());
-
-        return repository.save(existing);
-    }
-
-    @Override
-    public Optional<DeviationRule> getRuleByCode(String ruleCode) {
-        return repository.findByRuleCode(ruleCode);
+        return rule;
     }
 
     @Override
