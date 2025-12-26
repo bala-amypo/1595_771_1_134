@@ -1,7 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.ClinicalAlertRecord;
-import com.example.demo.repository.ClinicalAlertRepository;
+import com.example.demo.repository.ClinicalAlertRecordRepository;
 import com.example.demo.service.ClinicalAlertService;
 import org.springframework.stereotype.Service;
 
@@ -10,26 +10,10 @@ import java.util.List;
 @Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
 
-    private final ClinicalAlertRepository repository;
+    private final ClinicalAlertRecordRepository repository;
 
-    public ClinicalAlertServiceImpl(ClinicalAlertRepository repository) {
+    public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository repository) {
         this.repository = repository;
-    }
-
-    @Override
-    public ClinicalAlertRecord createAlert(ClinicalAlertRecord alert) {
-        return repository.save(alert);
-    }
-
-    @Override
-    public List<ClinicalAlertRecord> getAllAlerts() {
-        return repository.findAll();
-    }
-
-    @Override
-    public ClinicalAlertRecord getAlertById(Long alertId) {
-        return repository.findById(alertId)
-                .orElseThrow(() -> new RuntimeException("Alert not found"));
     }
 
     @Override
@@ -38,9 +22,8 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
     }
 
     @Override
-    public ClinicalAlertRecord resolveAlert(Long alertId) {
-        ClinicalAlertRecord alert = getAlertById(alertId);
-        alert.setResolved(true);
-        return repository.save(alert);
+    public ClinicalAlertRecord getAlertById(Long alertId) {
+        return repository.findById(alertId)
+                .orElseThrow(() -> new RuntimeException("Alert not found"));
     }
 }
