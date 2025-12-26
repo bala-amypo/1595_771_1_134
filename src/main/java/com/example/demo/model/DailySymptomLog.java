@@ -6,12 +6,11 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "daily_symptom_logs")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class DailySymptomLog {
 
     @Id
@@ -19,9 +18,14 @@ public class DailySymptomLog {
     private Long id;
 
     private Long patientId;
+
     private LocalDate logDate;
-    private int painLevel;
-    private int mobilityLevel;
-    private int fatigueLevel;
+
+    private Integer painLevel;
+
+    private Integer mobilityLevel;
+
+    private Integer fatigueLevel;
+
     private String additionalNotes;
 }

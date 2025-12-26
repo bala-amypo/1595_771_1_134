@@ -4,12 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "clinical_alerts")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ClinicalAlertRecord {
 
     @Id
@@ -18,7 +17,14 @@ public class ClinicalAlertRecord {
 
     private Long patientId;
 
+    private Long logId;
+
+    private String alertType;
+
+    private String severity;
+
     private String message;
 
-    private boolean resolved;
+    @Builder.Default
+    private Boolean resolved = false;
 }

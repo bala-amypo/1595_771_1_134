@@ -1,7 +1,9 @@
 package com.example.demo.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 
+@Entity
 @Getter
 @Setter
 @Builder
@@ -9,10 +11,17 @@ import lombok.*;
 @AllArgsConstructor
 public class RecoveryCurveProfile {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String surgeryType;
+
     private Integer dayNumber;
+
     private Integer expectedPainLevel;
+
     private Integer expectedMobilityLevel;
+
     private Integer expectedFatigueLevel;
 }
