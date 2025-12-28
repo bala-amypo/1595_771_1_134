@@ -5,11 +5,13 @@ import com.example.demo.service.PatientProfileService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/patients")
-@SecurityRequiremnet(name="bearerAuth")
+@SecurityRequirement(name="bearerAuth")
 @Tag(name = "Patient Profiles")
 public class PatientProfileController {
 

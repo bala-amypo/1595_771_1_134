@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/alerts")
-@SecurityRequiremnet(name="bearerAuth")
+@SecurityRequirement(name="bearerAuth")
 @Tag(name = "Clinical Alerts")
 public class ClinicalAlertController {
 

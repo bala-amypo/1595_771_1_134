@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/deviation-rules")
-@SecurityRequiremnet(name="bearerAuth")
+@SecurityRequirement(name="bearerAuth")
 @Tag(name = "Deviation Rules")
 public class DeviationRuleController {
 

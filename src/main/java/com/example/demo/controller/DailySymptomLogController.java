@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/symptom-logs")
-@SecurityRequiremnet(name="bearerAuth")
+@SecurityRequirement(name="bearerAuth")
 @Tag(name = "Daily Symptom Logs")
 public class DailySymptomLogController {
 
