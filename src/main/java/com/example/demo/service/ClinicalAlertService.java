@@ -7,6 +7,9 @@ import java.util.Optional;
 
 public interface ClinicalAlertService {
 
+    // ✅ REQUIRED for DailySymptomLogServiceImpl & Controller
+    ClinicalAlertRecord createAlert(ClinicalAlertRecord alert);
+
     List<ClinicalAlertRecord> getAlertsByPatient(Long patientId);
 
     Optional<ClinicalAlertRecord> getAlertById(Long alertId);
