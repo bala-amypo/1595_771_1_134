@@ -50,8 +50,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (tokenProvider.validateToken(token)) {
 
-                // ✅ EMAIL-based authentication (matches your project)
-                String email = tokenProvider.getEmailFromToken(token);
+                // ✅ FIX: method name corrected
+                String email = tokenProvider.getUsernameFromToken(token);
 
                 UserDetails userDetails =
                         userDetailsService.loadUserByUsername(email);
