@@ -18,7 +18,7 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
         this.repository = repository;
     }
 
-    // 🔹 CREATE RULE
+    // CREATE
     @Override
     public DeviationRule createRule(DeviationRule rule) {
 
@@ -29,19 +29,25 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
         return repository.save(rule);
     }
 
-    // 🔹 GET RULE BY CODE
+    // READ BY CODE
     @Override
     public Optional<DeviationRule> getRuleByCode(String ruleCode) {
         return repository.findByRuleCode(ruleCode);
     }
 
-    // 🔹 GET ACTIVE RULES
+    // READ ACTIVE
     @Override
     public List<DeviationRule> getActiveRules() {
         return repository.findByActiveTrue();
     }
 
-    // 🔹 UPDATE RULE
+    // ✅ READ ALL (FIXES YOUR COMPILATION ERROR)
+    @Override
+    public List<DeviationRule> getAllRules() {
+        return repository.findAll();
+    }
+
+    // UPDATE
     @Override
     public DeviationRule updateRule(Long id, DeviationRule updatedRule) {
 
@@ -58,7 +64,6 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
         existing.setThreshold(updatedRule.getThreshold());
         existing.setSeverity(updatedRule.getSeverity());
 
-        // ✅ Prevent null overwrite
         if (updatedRule.getActive() != null) {
             existing.setActive(updatedRule.getActive());
         }

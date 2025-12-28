@@ -7,14 +7,17 @@ import java.util.Optional;
 
 public interface DeviationRuleService {
 
-     
+    // CREATE
     DeviationRule createRule(DeviationRule rule);
 
-     
+    // READ
     Optional<DeviationRule> getRuleByCode(String ruleCode);
 
     List<DeviationRule> getActiveRules();
 
-     
+    // ✅ REQUIRED BY CONTROLLER
+    List<DeviationRule> getAllRules();
+
+    // UPDATE
     DeviationRule updateRule(Long id, DeviationRule rule);
 }
