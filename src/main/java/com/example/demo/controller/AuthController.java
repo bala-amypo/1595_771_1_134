@@ -19,13 +19,19 @@ public class AuthController {
         this.authService = authService;
     }
 
+    // 🔹 REGISTER
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthResponse> register(
+            @RequestBody RegisterRequest request) {
+
         return ResponseEntity.ok(authService.register(request));
     }
 
+    // 🔹 LOGIN
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
+    public ResponseEntity<AuthResponse> login(
+            @RequestBody AuthRequest request) {
+
         return ResponseEntity.ok(authService.login(request));
     }
 }
