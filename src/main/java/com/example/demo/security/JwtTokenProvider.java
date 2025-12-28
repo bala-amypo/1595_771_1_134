@@ -55,12 +55,14 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    private final String SECRET_KEY = "my-secret-key-12345"; // move to application.yml later
+    // ⚠️ Move to application.properties later
+    private final String SECRET_KEY = "my-secret-key-12345";
     private final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
 
+    // ✅ Generate JWT
     public String generateToken(AppUser user) {
         return Jwts.builder()
-                .setSubject(user.getEmail())
+                .setSubject(user.getEmail()) // username
                 .claim("userId", user.getId())
                 .claim("role", user.getRole().name())
                 .setIssuedAt(new Date())
@@ -69,10 +71,12 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String getEmailFromToken(String token) {
+    // ✅ REQUIRED by JwtAuthenticationFilter
+    public String getUsernameFromToken(String token) {
         return getClaims(token).getSubject();
     }
 
+    // ✅ Token validation
     public boolean validateToken(String token) {
         try {
             getClaims(token);
@@ -82,6 +86,7 @@ public class JwtTokenProvider {
         }
     }
 
+    // 🔒 Internal helper
     private Claims getClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(SECRET_KEY)
