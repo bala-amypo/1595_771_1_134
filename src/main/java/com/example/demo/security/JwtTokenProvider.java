@@ -11,13 +11,13 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    // ⚠️ Move to application.properties later
+     
     private static final String SECRET_KEY = "my-secret-key-12345-my-secret-key-12345";
     private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
 
     private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
-    // ✅ Generate JWT
+     
     public String generateToken(AppUser user) {
         return Jwts.builder()
                 .setSubject(user.getEmail())          // EMAIL-based auth
@@ -29,12 +29,12 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    // ✅ REQUIRED by JwtAuthenticationFilter
+     
     public String getEmailFromToken(String token) {
         return getClaims(token).getSubject();
     }
 
-    // ✅ Token validation (used in tests)
+    
     public boolean validateToken(String token) {
         try {
             getClaims(token);
@@ -44,7 +44,7 @@ public class JwtTokenProvider {
         }
     }
 
-    // 🔒 Internal helper
+     
     private Claims getClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
