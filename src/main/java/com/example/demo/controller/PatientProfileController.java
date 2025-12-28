@@ -42,7 +42,10 @@ public class PatientProfileController {
 
     @GetMapping("/lookup/{patientId}")
     public PatientProfile findByPatientId(@PathVariable String patientId) {
-        return patientService.findByPatientId(patientId)
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
-    }
+            return patientService.findByPatientId(patientId)
+            .orElseThrow(() ->
+                    new com.example.demo.exception.ResourceNotFoundException(
+                            "Patient not found"));
+}
+
 }
