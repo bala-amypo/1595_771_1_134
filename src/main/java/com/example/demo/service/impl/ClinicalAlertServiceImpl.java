@@ -18,6 +18,12 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
         this.repository = repository;
     }
 
+    // ✅ CREATE ALERT (FIXES YOUR ERROR)
+    @Override
+    public ClinicalAlertRecord createAlert(ClinicalAlertRecord alert) {
+        return repository.save(alert);
+    }
+
     @Override
     public List<ClinicalAlertRecord> getAlertsByPatient(Long patientId) {
         return repository.findByPatientId(patientId);
@@ -32,6 +38,7 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
     public ClinicalAlertRecord resolveAlert(Long alertId) {
         ClinicalAlertRecord alert = repository.findById(alertId)
                 .orElseThrow(() -> new ResourceNotFoundException("Alert not found"));
+
         alert.setResolved(true);
         return repository.save(alert);
     }
