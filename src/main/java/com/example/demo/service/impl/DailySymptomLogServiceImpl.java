@@ -17,9 +17,8 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     private final PatientProfileRepository patientProfileRepository;
     private final RecoveryCurveService recoveryCurveService;
     private final DeviationRuleService deviationRuleService;
-    private final ClinicalAlertService clinicalAlertService; // ✅ SERVICE, NOT REPO
+    private final ClinicalAlertService clinicalAlertService;
 
-    // ✅ CONSTRUCTOR MATCHES TEST EXACTLY
     public DailySymptomLogServiceImpl(
             DailySymptomLogRepository dailySymptomLogRepository,
             PatientProfileRepository patientProfileRepository,
@@ -51,16 +50,17 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
         DailySymptomLog savedLog = dailySymptomLogRepository.save(log);
 
-        long recoveryDay = ChronoUnit.DAYS.between(
+        // ✅ FIX: +1 to match recovery curve day numbers
+        int recoveryDay = (int) ChronoUnit.DAYS.between(
                 patient.getCreatedAt().toLocalDate(),
                 logDate
-        );
+        ) + 1;
 
         List<RecoveryCurveProfile> curves =
                 recoveryCurveService.getCurveForSurgery(patient.getSurgeryType());
 
         RecoveryCurveProfile expectedCurve = curves.stream()
-                .filter(c -> c.getDayNumber() == (int) recoveryDay)
+                .filter(c -> c.getDayNumber() == recoveryDay)
                 .findFirst()
                 .orElse(null);
 
@@ -81,8 +81,8 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
                             .resolved(false)
                             .build();
 
-                    // ✅ USE SERVICE (mocked in tests)
-                    clinicalAlertService.getAlertsByPatient(patientId);
+                    // ✅ FIX: ACTUALLY SAVE THE ALERT
+                    clinicalAlertService.createAlert(alert);
                 }
             }
         }

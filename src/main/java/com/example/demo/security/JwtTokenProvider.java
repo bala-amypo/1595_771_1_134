@@ -1,82 +1,40 @@
-// package com.example.demo.security;
-
-// import com.example.demo.model.AppUser;
-// import io.jsonwebtoken.*;
-// import org.springframework.stereotype.Component;
-
-// import java.util.Date;
-
-// @Component
-// public class JwtTokenProvider {
-
-//     private final String JWT_SECRET = "secretKey";
-//     private final long JWT_EXPIRATION = 3600000; // 1 hour
-
-//     public String generateToken(AppUser user) {
-
-//         return Jwts.builder()
-//                 .setSubject(user.getEmail())
-//                 .claim("role", user.getRole().name())
-//                 .claim("id", user.getId())
-//                 .setIssuedAt(new Date())
-//                 .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION))
-//                 .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
-//                 .compact();
-//     }
-
-//     public boolean validateToken(String token) {
-//         try {
-//             Jwts.parser()
-//                     .setSigningKey(JWT_SECRET)
-//                     .parseClaimsJws(token);
-//             return true;
-//         } catch (JwtException | IllegalArgumentException ex) {
-//             return false;
-//         }
-//     }
-
-//     public String getUsernameFromToken(String token) {
-//         Claims claims = Jwts.parser()
-//                 .setSigningKey(JWT_SECRET)
-//                 .parseClaimsJws(token)
-//                 .getBody();
-
-//         return claims.getSubject();
-//     }
-// }
 package com.example.demo.security;
 
 import com.example.demo.model.AppUser;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
+import java.security.Key;
 import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
 
     // ⚠️ Move to application.properties later
-    private final String SECRET_KEY = "my-secret-key-12345";
-    private final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
+    private static final String SECRET_KEY = "my-secret-key-12345-my-secret-key-12345";
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
+
+    private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
     // ✅ Generate JWT
     public String generateToken(AppUser user) {
         return Jwts.builder()
-                .setSubject(user.getEmail()) // username
+                .setSubject(user.getEmail())          // EMAIL-based auth
                 .claim("userId", user.getId())
                 .claim("role", user.getRole().name())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     // ✅ REQUIRED by JwtAuthenticationFilter
-    public String getUsernameFromToken(String token) {
+    public String getEmailFromToken(String token) {
         return getClaims(token).getSubject();
     }
 
-    // ✅ Token validation
+    // ✅ Token validation (used in tests)
     public boolean validateToken(String token) {
         try {
             getClaims(token);
@@ -88,8 +46,9 @@ public class JwtTokenProvider {
 
     // 🔒 Internal helper
     private Claims getClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
