@@ -33,11 +33,9 @@ public class AuthServiceImpl implements AuthService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    // 🔹 REGISTER
     @Override
     public AuthResponse register(RegisterRequest request) {
 
-        // ✅ FIX: prevent duplicate email (avoids 500 error)
         if (appUserRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email already registered");
         }
@@ -46,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .fullName(request.getFullName())
-                .role(UserRole.CLINICIAN) // expected by tests
+                .role(UserRole.CLINICIAN)
                 .build();
 
         AppUser savedUser = appUserRepository.save(user);
@@ -56,7 +54,6 @@ public class AuthServiceImpl implements AuthService {
         return new AuthResponse(savedUser.getEmail(), token);
     }
 
-    // 🔹 LOGIN
     @Override
     public AuthResponse login(AuthRequest request) {
 
