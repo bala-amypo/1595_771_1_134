@@ -37,11 +37,16 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse register(RegisterRequest request) {
 
+        // ✅ FIX: prevent duplicate email (avoids 500 error)
+        if (appUserRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Email already registered");
+        }
+
         AppUser user = AppUser.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .fullName(request.getFullName())
-                .role(UserRole.CLINICIAN) // tests expect this
+                .role(UserRole.CLINICIAN) // expected by tests
                 .build();
 
         AppUser savedUser = appUserRepository.save(user);
