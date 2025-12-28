@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "clinical_alerts")
 @Getter
 @Setter
 @Builder
@@ -25,6 +26,7 @@ public class ClinicalAlertRecord {
 
     private String message;
 
+    @Column(nullable = false)
     @Builder.Default
     private Boolean resolved = false;
 }
