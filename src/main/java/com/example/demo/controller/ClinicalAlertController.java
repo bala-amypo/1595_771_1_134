@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/alerts")
+@Security
 @Tag(name = "Clinical Alerts")
 public class ClinicalAlertController {
 
