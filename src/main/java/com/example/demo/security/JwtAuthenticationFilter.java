@@ -63,7 +63,7 @@
 //         filterChain.doFilter(request, response);
 //     }
 // }
-package com.example.demo.security;
+// package com.example.demo.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -93,7 +93,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return path.startsWith("/auth") || path.startsWith("/swagger-ui") || path.startsWith("/v3/api-docs");
+        return path.startsWith("/auth") 
+               || path.startsWith("/swagger-ui") 
+               || path.startsWith("/v3/api-docs");
     }
 
     @Override
@@ -102,15 +104,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-
             String token = authHeader.substring(7);
 
             if (tokenProvider.validateToken(token)
