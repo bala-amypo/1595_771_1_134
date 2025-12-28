@@ -25,7 +25,7 @@ public class SwaggerConfig {
 
                 // Server Configuration
                 .servers(List.of(
-                        new Server().url("https://9096.pro604cr.amypo.ai")
+                        new Server().url("https://9119.pro604cr.amypo.ai")
                 ))
 
                 // Security Configuration (JWT Bearer)
