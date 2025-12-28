@@ -4,11 +4,12 @@ import com.example.demo.model.DeviationRule;
 import com.example.demo.service.DeviationRuleService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
-
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/deviation-rules")
+@SecurityRequiremnet(name="bearerAuth")
 @Tag(name = "Deviation Rules")
 public class DeviationRuleController {
 

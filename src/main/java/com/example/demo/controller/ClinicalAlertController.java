@@ -4,12 +4,13 @@ import com.example.demo.model.ClinicalAlertRecord;
 import com.example.demo.service.ClinicalAlertService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/alerts")
-@Security
+@SecurityRequiremnet(name="bearerAuth")
 @Tag(name = "Clinical Alerts")
 public class ClinicalAlertController {
 
