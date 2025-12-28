@@ -4,11 +4,13 @@ import com.example.demo.model.PatientProfile;
 import com.example.demo.service.PatientProfileService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/patients")
+@SecurityRequirement(name="bearerAuth")
 public class PatientProfileController {
 
     private final PatientProfileService patientProfileService;

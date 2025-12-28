@@ -4,11 +4,13 @@ import com.example.demo.model.ClinicalAlertRecord;
 import com.example.demo.service.ClinicalAlertService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/alerts")
+@SecurityRequirement(name="bearerAuth")
 public class ClinicalAlertController {
 
     private final ClinicalAlertService clinicalAlertService;
